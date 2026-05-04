@@ -1,3 +1,5 @@
+from preprocessing import preprocess_text
+
 def boolean_search_and(term1, term2, inverted_index):
     # intersection of documents containing the two words.
     set1 = set(inverted_index.get(term1, []))
