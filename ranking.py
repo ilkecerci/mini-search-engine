@@ -3,10 +3,10 @@ import os
 import preprocessing 
 
 def load_documents(folder_path="documents"):
-    """Klasördeki tüm .txt dosyalarını okur ve içeriklerini bir sözlükte toplar."""
+    """It reads all the .txt files in the folder and compiles their contents into a dictionary."""
     documents = {}
     if not os.path.exists(folder_path):
-        print(f"Hata: '{folder_path}' klasörü bulunamadı! Lütfen dökümanların olduğu klasörün adını kontrol et.")
+        print(f"Error: '{folder_path}' The folder could not be found! Please check the name of the folder containing the documents.")
         return documents
     
     for filename in os.listdir(folder_path):
@@ -16,7 +16,7 @@ def load_documents(folder_path="documents"):
     return documents
 
 def build_inverted_index_for_idf(docs_tokens):
-    """IDF hesaplayabilmek için kelimelerin hangi dökümanlarda geçtiğini belirler[cite: 43]."""
+    """To calculate the IDF, it determines in which documents the words appear."""
     inverted_index = {}
     for doc_id, tokens in docs_tokens.items():
         for token in set(tokens): 
@@ -26,7 +26,7 @@ def build_inverted_index_for_idf(docs_tokens):
     return inverted_index
 
 def calculate_tfidf_vector(tokens, inverted_index, total_docs):
-    """Bir metin (döküman veya sorgu) için TF-IDF vektörü oluşturur[cite: 51, 54]."""
+    """Creates a TF-IDF vector for a text (document or query)."""
     vector = {}
     counts = {}
     for t in tokens:
@@ -41,7 +41,7 @@ def calculate_tfidf_vector(tokens, inverted_index, total_docs):
     return vector
 
 def calculate_cosine_similarity(vec1, vec2):
-    """İki vektör arasındaki Kosinüs Benzerliğini hesaplar[cite: 55, 56]."""
+    """Calculates the cosine similarity between two vectors."""
     common_terms = set(vec1.keys()) & set(vec2.keys())
     dot_product = sum(vec1[t] * vec2[t] for t in common_terms)
     magnitude1 = math.sqrt(sum(val**2 for val in vec1.values()))
@@ -52,7 +52,7 @@ def calculate_cosine_similarity(vec1, vec2):
     return dot_product / (magnitude1 * magnitude2)
 
 def get_ranked_results(query):
-    """Sorguyu alır ve dökümanları en alakalıdan başlayarak sıralar[cite: 51]."""
+    """It receives the query and sorts the documents starting with the most relevant."""
     raw_docs = load_documents()
     if not raw_docs: return []
     
@@ -69,15 +69,15 @@ def get_ranked_results(query):
     ranked_list.sort(key=lambda x: x[1], reverse=True)
     return ranked_list
 if __name__ == "__main__":
-    user_query = input("Arama yapmak istediğiniz terimi girin: ")
+    user_query = input("Enter the term you want to search for: ")
     print(f"\n'{user_query}' sorgusu için dökümanlar sıralanıyor...\n")
     
     results = get_ranked_results(user_query)
     
     if not results:
-        print("Sonuç bulunamadı.")
+        print("No results found.")
     else:
-        print(f"{'Sıra':<5} {'Döküman ID':<25} {'Benzerlik Skoru'}")
+        print(f"{'Order':<5} {'Document ID':<25} {'Similarity Score: '}")
         print("-" * 50)
         for rank, (doc_id, score) in enumerate(results, 1):
             print(f"{rank:<5} {doc_id:<25} {score:.4f}")
