@@ -1,5 +1,5 @@
 from preprocessing import preprocess_text
-
+from ranking import get_ranked_results
 # testing to read doc01.txt 
 try:
     with open("documents/doc01.txt", "r", encoding="utf-8") as file:
@@ -31,7 +31,7 @@ print(f"Incidence Matrix Row: {matrix[sample_term]}")
 from indexing import build_indexes
 from search_engine import boolean_search_and, phrase_search
 from preprocessing import preprocess_text
-
+inv_idx, pos_idx, doc_list = build_indexes("documents")
 def main():
     # Step 1: Initialize and build indexes at startup
     print("Indexing documents... Please wait.")
@@ -45,7 +45,16 @@ def main():
         
         if query.lower() == 'exit':
             break
-
+        if query.startswith("RANK:"):
+            search_query = query.replace("RANK:", "").strip()
+            results = get_ranked_results(search_query) 
+            
+            print(f"\n{'Order':<5} {'Document ID':<25} {'Score'}")
+            print("-" * 50)
+            for rank, (doc_id, score) in enumerate(results, 1):
+                if score > 0:
+                    print(f"{rank:<5} {doc_id:<25} {score:.4f}")
+            continue
         results = []
 
         # Step 3: Handle Phrase Search (Check for double quotes)
