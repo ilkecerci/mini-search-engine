@@ -36,9 +36,34 @@ def main():
     # Step 1: Initialize and build indexes at startup
     print("Indexing documents... Please wait.")
     inv_idx, pos_idx, doc_list = build_indexes("documents")
+    from indexing import get_incidence_matrix
+
+    # Matrisi oluştur
+    matrix, terms = get_incidence_matrix(inv_idx, doc_list)
+
+    print("\n" + "="*60)
+    print("TASK 4: INCIDENCE MATRIX DEMONSTRATION") # Hocanın listesine göre Task 4
+    print("="*60)
+
+    # Başlık: İlk 5 döküman adı
+    header = "TERM".ljust(15)
+    for d in doc_list[:5]:
+        header += d.center(12)
+    print(header)
+    print("-" * len(header))
+
+    # İlk 15 kelime ve dökümanlardaki varlık (0/1) durumu
+    for t in terms[:15]:
+        row = t.ljust(15)
+        # matrix[t] döküman sayısı kadar uzunluktadır, ilk 5'ini alıyoruz
+        for val in matrix[t][:5]:
+            row += str(val).center(12)
+        print(row)
+    print("="*60 + "\n")
+    # ----------------------------------------------------
+
     print(f"Total documents indexed: {len(doc_list)}")
     print("-" * 30)
-
     while True:
         # Step 2: Get user input
         query = input("\nEnter your search (or 'exit' to quit): ").strip()
