@@ -19,7 +19,7 @@ except FileNotFoundError:
 
 from indexing import build_indexes, get_incidence_matrix
 
-inv_idx, pos_idx, docs = build_indexes("documents")
+inv_idx, pos_idx, docs = build_indexes("documents") #This is the first step where the engine reads all files and creates the "Inverted" and "Positional" maps.
 matrix, terms = get_incidence_matrix(inv_idx, docs)
 
 # sample: for the first word
@@ -52,10 +52,9 @@ def main():
     print(header)
     print("-" * len(header))
 
-    # İlk 15 kelime ve dökümanlardaki varlık (0/1) durumu
+    # It prints the first 15 terms and their status (0 or 1) across the first 5 documents.
     for t in terms[:15]:
         row = t.ljust(15)
-        # matrix[t] döküman sayısı kadar uzunluktadır, ilk 5'ini alıyoruz
         for val in matrix[t][:5]:
             row += str(val).center(12)
         print(row)
