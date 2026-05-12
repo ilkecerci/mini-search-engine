@@ -1,7 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
-# Projendeki diğer dosyaları içeri aktarıyoruz
+
 from indexing import build_indexes, get_incidence_matrix
 from ranking import get_ranked_results
 
