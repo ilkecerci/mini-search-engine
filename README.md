@@ -18,9 +18,10 @@ pip install -r requirements.txt
 
 🚀 How to Run
 To start the search engine, run the following command in your terminal:
-
 Bash
 python main.py
+
+
 <img width="725" height="302" alt="image" src="https://github.com/user-attachments/assets/7ea0bb02-4b4c-4894-bae7-2747007634ee" />
 
 📊 Visualizations
