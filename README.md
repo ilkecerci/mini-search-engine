@@ -30,5 +30,5 @@ Incidence Matrix: Displays a heatmap of term occurrences across the corpus.
 Relevance Charts: Displays bar charts of TF-IDF scores for ranked queries.
 
 👥 Contributors
-ilke Çerçi
+İlke Çerçi
 Mustafa Ablak
