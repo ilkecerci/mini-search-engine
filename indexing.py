@@ -4,12 +4,12 @@ from preprocessing import preprocess_text
 def build_indexes(docs_folder):
     inverted_index = {}
     positional_index = {}
-    doc_list = sorted([d for d in os.listdir(docs_folder) if d.endswith('.txt')])
+    doc_list = sorted([d for d in os.listdir(docs_folder) if d.endswith('.txt')]) #finds all the docs with .txt and orders them alphabetically
     
     for doc_id in doc_list:
         file_path = os.path.join(docs_folder, doc_id)
         with open(file_path, 'r', encoding='utf-8') as f:
-            tokens = preprocess_text(f.read())
+            tokens = preprocess_text(f.read()) #takes the function from preprocessing.py
             
             for position, term in enumerate(tokens):
                 # Inverted Index logic
@@ -19,10 +19,10 @@ def build_indexes(docs_folder):
                 
                 # Positional Index logic
                 if term not in positional_index:
-                    positional_index[term] = {}
+                    positional_index[term] = {} #it opens a new dict for the new (unseen) word
                 if doc_id not in positional_index[term]:
-                    positional_index[term][doc_id] = []
-                positional_index[term][doc_id].append(position)
+                    positional_index[term][doc_id] = [] #creates a location list for that doc
+                positional_index[term][doc_id].append(position) #saves the position of the word.
     
     # Convert sets to sorted lists for stability
     for term in inverted_index:
